@@ -1,6 +1,7 @@
 ﻿using Lab.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lab
 {
@@ -89,6 +90,16 @@ namespace Lab
                 }
 
                 index++;
+            }
+        }
+
+        public static IEnumerable<int> JoeyGroupSum<TSource>(this IEnumerable<TSource> products, Func<TSource, int> selector)
+        {
+            var pageIndex = 0;
+            var pageSize = 3;
+            while (products.Count() >= pageSize * pageIndex)
+            {
+                yield return products.Skip(pageIndex++ * pageSize).Take(pageSize).Sum(selector);
             }
         }
     }
