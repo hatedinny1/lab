@@ -102,5 +102,22 @@ namespace Lab
                 yield return products.Skip(pageIndex++ * pageSize).Take(pageSize).Sum(selector);
             }
         }
+
+        public static IEnumerable<Card> JoeyTakeWhile(this IEnumerable<Card> cards, Func<Card, bool> predicate)
+        {
+            var enumerator = cards.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (predicate(current))
+                {
+                    yield return current;
+                }
+                else
+                {
+                    yield break;
+                }
+            }
+        }
     }
 }
