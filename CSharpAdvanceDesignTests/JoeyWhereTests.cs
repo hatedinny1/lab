@@ -1,8 +1,8 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
@@ -25,7 +25,7 @@ namespace CSharpAdvanceDesignTests
                 new Product {Id = 8, Cost = 18, Price = 780, Supplier = "Yahoo"}
             };
 
-            var actual = JoeyWhere(products, current => current.Price > 200 && current.Price < 500);
+            var actual = products.JoeyWhere(current => current.Price > 200 && current.Price < 500);
 
             var expected = new List<Product>
             {
@@ -52,7 +52,7 @@ namespace CSharpAdvanceDesignTests
                 new Product {Id = 8, Cost = 18, Price = 780, Supplier = "Yahoo"}
             };
 
-            var actual = JoeyWhere(products, p => p.Price > 200 && p.Price < 500 && p.Cost > 30);
+            var actual = products.JoeyWhere(p => p.Price > 200 && p.Price < 500 && p.Cost > 30);
 
             var expected = new List<Product>
             {
@@ -67,25 +67,12 @@ namespace CSharpAdvanceDesignTests
         public void find_short_names()
         {
             var names = new List<string> { "Joey", "Cash", "William", "Sam", "Brian", "Jessica" };
-            var actual = JoeyWhere(names, n => n.Length < 5);
+            var actual = names.JoeyWhere(n => n.Length < 5);
             var expected = new[]
             {
                 "Joey", "Cash", "Sam"
             };
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private IEnumerable<Tsource> JoeyWhere<Tsource>(List<Tsource> sources, Func<Tsource, bool> predicate)
-        {
-            var enumerator = sources.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (predicate(current))
-                {
-                    yield return current;
-                }
-            }
         }
     }
 }
