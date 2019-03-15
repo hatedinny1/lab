@@ -119,5 +119,19 @@ namespace Lab
                 }
             }
         }
+
+        public static bool JoeyAll(this IEnumerable<Girl> girls, Func<Girl, bool> predicate)
+        {
+            var enumerator = girls.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (!predicate(current))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
