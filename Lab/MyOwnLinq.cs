@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Lab.Entities;
+using System;
 using System.Collections.Generic;
-using Lab.Entities;
 
 namespace Lab
 {
@@ -64,10 +64,15 @@ namespace Lab
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
-                if (index++ < takeCount)
+                if (index < takeCount)
                 {
                     yield return current;
                 }
+                else
+                {
+                    yield break;
+                }
+                index++;
             }
         }
 
