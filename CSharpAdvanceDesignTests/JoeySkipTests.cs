@@ -15,7 +15,7 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = GetEmployees();
 
-            var actual = employees.JoeySkip();
+            var actual = employees.JoeySkip(2);
 
             var expected = new List<Employee>
             {
@@ -25,6 +25,15 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual.ToList());
+        }
+
+        [Test]
+        public void numbers_skip_3()
+        {
+            var numbers = new[] { 10, 20, 30, 40 };
+            var actual = numbers.JoeySkip(3);
+            var expected = new[] { 40 };
+            expected.ToExpectedObject().ShouldMatch(actual);
         }
 
         private static IEnumerable<Employee> GetEmployees()
