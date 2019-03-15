@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = GetEmployees();
 
-            var actual = JoeySkip(employees);
+            var actual = employees.JoeySkip();
 
             var expected = new List<Employee>
             {
@@ -24,22 +25,6 @@ namespace CSharpAdvanceDesignTests
             };
 
             expected.ToExpectedObject().ShouldMatch(actual.ToList());
-        }
-
-        private IEnumerable<Employee> JoeySkip(IEnumerable<Employee> employees)
-        {
-            var enumerator = employees.GetEnumerator();
-            var index = 0;
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (index >= 2)
-                {
-                    yield return current;
-                }
-
-                index++;
-            }
         }
 
         private static IEnumerable<Employee> GetEmployees()
