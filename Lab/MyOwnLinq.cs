@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Lab.Entities;
 
 namespace Lab
 {
@@ -17,7 +18,9 @@ namespace Lab
                 }
             }
         }
-        public static IEnumerable<Tsource> JoeyWhere<Tsource>(this List<Tsource> sources, Func<Tsource, int, bool> predicate)
+
+        public static IEnumerable<Tsource> JoeyWhere<Tsource>(this List<Tsource> sources,
+            Func<Tsource, int, bool> predicate)
         {
             var enumerator = sources.GetEnumerator();
             var index = 0;
@@ -31,7 +34,8 @@ namespace Lab
             }
         }
 
-        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> sources, Func<TSource, TResult> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> sources,
+            Func<TSource, TResult> selector)
         {
             var enumerator = sources.GetEnumerator();
             while (enumerator.MoveNext())
@@ -41,7 +45,8 @@ namespace Lab
             }
         }
 
-        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> sources, Func<TSource, int, TResult> selector)
+        public static IEnumerable<TResult> JoeySelect<TSource, TResult>(this IEnumerable<TSource> sources,
+            Func<TSource, int, TResult> selector)
         {
             var enumerator = sources.GetEnumerator();
             var index = 0;
@@ -49,6 +54,20 @@ namespace Lab
             {
                 var current = enumerator.Current;
                 yield return selector(current, index++);
+            }
+        }
+
+        public static IEnumerable<Employee> JoeyTake(this IEnumerable<Employee> employees, int takeCount)
+        {
+            var enumerator = employees.GetEnumerator();
+            var index = 0;
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (index++ < takeCount)
+                {
+                    yield return current;
+                }
             }
         }
     }
