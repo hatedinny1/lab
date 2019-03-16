@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Lab.Entities;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
@@ -61,27 +62,58 @@ namespace CSharpAdvanceDesignTests
             Assert.IsTrue(actual);
         }
 
-        private bool JoeySequenceEqual(IEnumerable<int> first, IEnumerable<int> second)
+        [Test]
+        public void Test()
         {
-            var firstEnumerator = first.GetEnumerator();
-            var secondEnumerator = second.GetEnumerator();
-
-            while (firstEnumerator.MoveNext())
+            var first = new List<Employee>
             {
-                if (secondEnumerator.MoveNext())
+                new Employee {FirstName = "Joey", LastName = "Chen"},
+                new Employee {FirstName = "Tom", LastName = "Li"},
+                new Employee {FirstName = "David", LastName = "Chen"}
+            };
+
+            var second = new List<Employee>
+            {
+                new Employee {FirstName = "Joey", LastName = "Chen"},
+                new Employee {FirstName = "Tom", LastName = "Li"},
+                new Employee {FirstName = "David", LastName = "Chen"}
+            };
+            var actual = JoeySequenceEqual(first, second, new JoeyEmployeeEqualityComparer());
+            Assert.IsTrue(actual);
+        }
+
+        private bool JoeySequenceEqual<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second)
+        {
+            return JoeySequenceEqual(first, second, EqualityComparer<TSource>.Default);
+        }
+
+        private bool JoeySequenceEqual<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> equalityComparer)
+        {
+            var secondEnumerator = second.GetEnumerator();
+            var firstEnumerator = first.GetEnumerator();
+
+            while (true)
+            {
+                var firstFlag = firstEnumerator.MoveNext();
+                var secondFlag = secondEnumerator.MoveNext();
+
+                if (firstFlag != secondFlag)
                 {
-                    if (firstEnumerator.Current != secondEnumerator.Current)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                else
+
+                if (!firstFlag)
+                {
+                    return true;
+                }
+
+                if (!equalityComparer.Equals(firstEnumerator.Current, secondEnumerator.Current))
                 {
                     return false;
                 }
             }
 
-            return !secondEnumerator.MoveNext();
+            ;
         }
     }
 }
