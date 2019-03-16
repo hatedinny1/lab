@@ -82,11 +82,13 @@ namespace CSharpAdvanceDesignTests
                         minElement = element;
                         index = i;
                     }
-                    else if (lastNameCompare == 0 &&
-                             secondKeyComparer.Compare(secondKeySelector(element), secondKeySelector(minElement)) < 0)
+                    else if (lastNameCompare == 0)
                     {
-                        minElement = element;
-                        index = i;
+                        if (secondKeyComparer.Compare(secondKeySelector(element), secondKeySelector(minElement)) < 0)
+                        {
+                            minElement = element;
+                            index = i;
+                        }
                     }
                 }
 
