@@ -171,17 +171,14 @@ namespace Lab
             return new Stack<TSource>(sources);
         }
 
-        public static IEnumerable<TResult> JoeyZip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> girls, IEnumerable<TSecond> keys, Func<TFirst, TSecond, TResult> projector)
+        public static IEnumerable<TResult> JoeyZip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> seconds, IEnumerable<TSecond> firsts, Func<TFirst, TSecond, TResult> selector)
         {
-            var keysEnumerator = keys.GetEnumerator();
-            var girlsEnumerator = girls.GetEnumerator();
+            var secondEnumerator = firsts.GetEnumerator();
+            var firstEnumerator = seconds.GetEnumerator();
 
-            while (girlsEnumerator.MoveNext() && keysEnumerator.MoveNext())
+            while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
             {
-                var key = keysEnumerator.Current;
-                var girl = girlsEnumerator.Current;
-
-                yield return projector(girl, key);
+                yield return selector(firstEnumerator.Current, secondEnumerator.Current);
             }
         }
     }
