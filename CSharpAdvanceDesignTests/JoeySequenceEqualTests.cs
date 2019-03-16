@@ -1,4 +1,5 @@
-﻿using Lab.Entities;
+﻿using Lab;
+using Lab.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace CSharpAdvanceDesignTests
             var first = new List<int> { 3, 2, 1 };
             var second = new List<int> { 3, 2, 1 };
 
-            var actual = JoeySequenceEqual(first, second);
+            var actual = first.JoeySequenceEqual(second);
 
             Assert.IsTrue(actual);
         }
@@ -24,7 +25,7 @@ namespace CSharpAdvanceDesignTests
             var first = new List<int> { 3, 2, 1 };
             var second = new List<int> { 1, 2, 3 };
 
-            var actual = JoeySequenceEqual(first, second);
+            var actual = first.JoeySequenceEqual(second);
 
             Assert.IsFalse(actual);
         }
@@ -35,7 +36,7 @@ namespace CSharpAdvanceDesignTests
             var first = new List<int> { 3, 2, 1 };
             var second = new List<int> { 3, 2 };
 
-            var actual = JoeySequenceEqual(first, second);
+            var actual = first.JoeySequenceEqual(second);
 
             Assert.IsFalse(actual);
         }
@@ -46,7 +47,7 @@ namespace CSharpAdvanceDesignTests
             var first = new List<int> { 3, 2 };
             var second = new List<int> { 3, 2, 1 };
 
-            var actual = JoeySequenceEqual(first, second);
+            var actual = first.JoeySequenceEqual(second);
 
             Assert.IsFalse(actual);
         }
@@ -57,7 +58,7 @@ namespace CSharpAdvanceDesignTests
             var first = new List<int> { };
             var second = new List<int> { };
 
-            var actual = JoeySequenceEqual(first, second);
+            var actual = first.JoeySequenceEqual(second);
 
             Assert.IsTrue(actual);
         }
@@ -78,42 +79,8 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Tom", LastName = "Li"},
                 new Employee {FirstName = "David", LastName = "Chen"}
             };
-            var actual = JoeySequenceEqual(first, second, new JoeyEmployeeEqualityComparer());
+            var actual = first.JoeySequenceEqual(second, new JoeyEmployeeEqualityComparer());
             Assert.IsTrue(actual);
-        }
-
-        private bool JoeySequenceEqual<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second)
-        {
-            return JoeySequenceEqual(first, second, EqualityComparer<TSource>.Default);
-        }
-
-        private bool JoeySequenceEqual<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> equalityComparer)
-        {
-            var secondEnumerator = second.GetEnumerator();
-            var firstEnumerator = first.GetEnumerator();
-
-            while (true)
-            {
-                var firstFlag = firstEnumerator.MoveNext();
-                var secondFlag = secondEnumerator.MoveNext();
-
-                if (firstFlag != secondFlag)
-                {
-                    return false;
-                }
-
-                if (!firstFlag)
-                {
-                    return true;
-                }
-
-                if (!equalityComparer.Equals(firstEnumerator.Current, secondEnumerator.Current))
-                {
-                    return false;
-                }
-            }
-
-            ;
         }
     }
 }
