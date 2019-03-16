@@ -57,8 +57,7 @@ namespace CSharpAdvanceDesignTests
 
             var actual = numbers.JoeyFirstOrDefault();
 
-            var expected = 0;
-            expected.ToExpectedObject().ShouldMatch(actual);
+            Assert.AreEqual(0, actual);
         }
     }
 }
