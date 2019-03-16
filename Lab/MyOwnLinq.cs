@@ -153,5 +153,17 @@ namespace Lab
             var enumerator = sources.GetEnumerator();
             return enumerator.MoveNext() ? enumerator.Current : default(TSource);
         }
+
+        public static TSource JoeyLastOrDefault<TSource>(this IEnumerable<TSource> employees)
+        {
+            var enumerator = employees.GetEnumerator();
+            var last = default(TSource);
+            while (enumerator.MoveNext())
+            {
+                var enumeratorCurrent = enumerator.Current;
+                last = enumeratorCurrent;
+            }
+            return last;
+        }
     }
 }
