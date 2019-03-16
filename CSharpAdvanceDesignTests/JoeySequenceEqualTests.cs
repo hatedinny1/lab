@@ -55,8 +55,8 @@ namespace CSharpAdvanceDesignTests
         [Test]
         public void compare_two_numbers_both_sequence_is_empty()
         {
-            var first = new List<int> { };
-            var second = new List<int> { };
+            var first = new List<int>();
+            var second = new List<int>();
 
             var actual = first.JoeySequenceEqual(second);
 
@@ -64,7 +64,7 @@ namespace CSharpAdvanceDesignTests
         }
 
         [Test]
-        public void Test()
+        public void compare_two_employee_with_equalComparer()
         {
             var first = new List<Employee>
             {
