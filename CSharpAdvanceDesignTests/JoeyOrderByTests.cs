@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CSharpAdvanceDesignTests
 {
-    public class CombineKeyComparer
+    public class CombineKeyComparer : IComparer<Employee>
     {
         public CombineKeyComparer(Func<Employee, string> keySelector, Comparer<string> keyComparer)
         {
@@ -15,8 +15,17 @@ namespace CSharpAdvanceDesignTests
             KeyComparer = keyComparer;
         }
 
-        public Func<Employee, string> KeySelector { get; private set; }
-        public Comparer<string> KeyComparer { get; private set; }
+        private Func<Employee, string> KeySelector { get; set; }
+        private Comparer<string> KeyComparer { get; set; }
+
+        public int Compare(Employee element,
+            Employee minElement)
+        {
+            var firstCompare =
+                KeyComparer.Compare(KeySelector(element),
+                    KeySelector(minElement));
+            return firstCompare;
+        }
     }
 
     [TestFixture]
@@ -61,7 +70,7 @@ namespace CSharpAdvanceDesignTests
             var firstComparer = new CombineKeyComparer(element => element.LastName, Comparer<string>.Default);
             var secondComparer = new CombineKeyComparer(element => element.FirstName, Comparer<string>.Default);
 
-            var actual = JoeyOrderByLastName(employees, firstComparer, secondComparer);
+            var actual = JoeyOrderByLastNameAndFirstName(employees, firstComparer, secondComparer);
 
             var expected = new[]
             {
@@ -74,8 +83,8 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private IEnumerable<Employee> JoeyOrderByLastName(IEnumerable<Employee> employees,
-            CombineKeyComparer combineKeyComparer, CombineKeyComparer secondComparer)
+        private IEnumerable<Employee> JoeyOrderByLastNameAndFirstName(IEnumerable<Employee> employees,
+            IComparer<Employee> firstComparer, IComparer<Employee> secondComparer)
         {
             //bubble sort
             var elements = employees.ToList();
@@ -86,18 +95,16 @@ namespace CSharpAdvanceDesignTests
                 for (int i = 1; i < elements.Count; i++)
                 {
                     var element = elements[i];
-                    var lastNameCompare =
-                        combineKeyComparer.KeyComparer.Compare(combineKeyComparer.KeySelector(element),
-                            combineKeyComparer.KeySelector(minElement));
-                    if (lastNameCompare < 0)
+                    var firstCompareResult = firstComparer.Compare(element, minElement);
+                    if (firstCompareResult < 0)
                     {
                         minElement = element;
                         index = i;
                     }
-                    else if (lastNameCompare == 0)
+                    else if (firstCompareResult == 0)
                     {
-                        if (secondComparer.KeyComparer.Compare(secondComparer.KeySelector(element),
-                                secondComparer.KeySelector(minElement)) < 0)
+                        var secondCompareResult = secondComparer.Compare(element, minElement);
+                        if (secondCompareResult < 0)
                         {
                             minElement = element;
                             index = i;
