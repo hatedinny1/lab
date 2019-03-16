@@ -50,10 +50,12 @@
     <Compile Include="Entities\Pet.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Role.cs" />
+    <Compile Include="EqualityComparer\JoeyEmployeeEqualityComparer.cs" />
     <Compile Include="IValidator.cs" />
     <Compile Include="MyOwnLinq.cs" />
     <Compile Include="ProductValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

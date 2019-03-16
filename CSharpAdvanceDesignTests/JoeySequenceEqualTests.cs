@@ -2,6 +2,7 @@
 using Lab.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Lab.EqualityComparer;
 
 namespace CSharpAdvanceDesignTests
 {
