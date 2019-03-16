@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -14,7 +15,7 @@ namespace CSharpAdvanceDesignTests
         {
             var employees = new List<Employee>();
 
-            var actual = JoeyFirstOrDefault(employees);
+            var actual = employees.JoeyFirstOrDefault();
 
             Assert.IsNull(actual);
         }
@@ -38,7 +39,7 @@ namespace CSharpAdvanceDesignTests
                 },
             };
 
-            var actual = JoeyFirstOrDefault(employees);
+            var actual = employees.JoeyFirstOrDefault();
 
             var expected = new Employee()
             {
@@ -54,16 +55,10 @@ namespace CSharpAdvanceDesignTests
         {
             var numbers = new List<int>();
 
-            var actual = JoeyFirstOrDefault<int>(numbers);
+            var actual = numbers.JoeyFirstOrDefault();
 
             var expected = 0;
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private TSource JoeyFirstOrDefault<TSource>(IEnumerable<TSource> sources)
-        {
-            var enumerator = sources.GetEnumerator();
-            return enumerator.MoveNext() ? enumerator.Current : default(TSource);
         }
     }
 }
