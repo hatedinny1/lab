@@ -1,8 +1,8 @@
 ﻿using Lab;
 using Lab.Entities;
+using Lab.EqualityComparer;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Lab.EqualityComparer;
 
 namespace CSharpAdvanceDesignTests
 {
