@@ -1,4 +1,5 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyZipTests
     {
         [Test]
@@ -26,7 +26,7 @@ namespace CSharpAdvanceDesignTests
                 new Key() {Type = CardType.Benz, Owner = "Tom"},
             };
 
-            var pairs = JoeyZip(girls, keys);
+            var pairs = girls.JoeyZip(keys, (girl, key) => $"{girl.Name}-{key.Owner}");
 
             var expected = new[]
             {
@@ -37,9 +37,31 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(pairs);
         }
 
-        private IEnumerable<string> JoeyZip(IEnumerable<Girl> girls, IEnumerable<Key> keys)
+        [Test]
+        public void pair_girls_and_keys_CardType()
         {
-            throw new System.NotImplementedException();
+            var girls = new List<Girl>
+            {
+                new Girl() {Name = "Mary"},
+                new Girl() {Name = "Jessica"},
+            };
+
+            var keys = new List<Key>
+            {
+                new Key() {Type = CardType.BMW, Owner = "Joey"},
+                new Key() {Type = CardType.TOYOTA, Owner = "David"},
+                new Key() {Type = CardType.Benz, Owner = "Tom"},
+            };
+
+            var pairs = girls.JoeyZip(keys, (girl, key) => $"{girl.Name}-{key.Type}");
+
+            var expected = new[]
+            {
+                "Mary-BMW",
+                "Jessica-TOYOTA",
+            };
+
+            expected.ToExpectedObject().ShouldMatch(pairs);
         }
     }
 }
