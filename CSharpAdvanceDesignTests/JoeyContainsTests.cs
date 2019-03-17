@@ -1,4 +1,5 @@
 ﻿using Lab.Entities;
+using Lab.EqualityComparer;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -36,19 +37,6 @@ namespace CSharpAdvanceDesignTests
                 }
             }
             return false;
-        }
-    }
-
-    internal class JoeySpecialEmployeeEqualityComparer : IEqualityComparer<Employee>
-    {
-        public bool Equals(Employee x, Employee y)
-        {
-            return x.FirstName == y.FirstName && x.LastName == y.LastName;
-        }
-
-        public int GetHashCode(Employee obj)
-        {
-            return new { obj.FirstName, obj.LastName }.GetHashCode();
         }
     }
 }
