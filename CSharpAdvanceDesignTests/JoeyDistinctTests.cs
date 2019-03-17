@@ -1,9 +1,9 @@
 ﻿using ExpectedObjects;
+using Lab;
 using Lab.Entities;
 using Lab.EqualityComparer;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System.Collections.Generic;
 
 namespace CSharpAdvanceDesignTests
 {
@@ -14,7 +14,7 @@ namespace CSharpAdvanceDesignTests
         public void distinct_numbers()
         {
             var numbers = new[] { 91, 3, 91, -1 };
-            var actual = JoeyDistinct(numbers);
+            var actual = numbers.JoeyDistinct();
 
             var expected = new[] { 91, 3, -1 };
 
@@ -33,7 +33,7 @@ namespace CSharpAdvanceDesignTests
                 new Employee {FirstName = "Joey", LastName = "Chen"},
             };
 
-            var actual = JoeyDistinct(employees, new JoeySpecialEmployeeEqualityComparer());
+            var actual = employees.JoeyDistinct(new JoeySpecialEmployeeEqualityComparer());
 
             var expected = new[]
             {
@@ -44,34 +44,6 @@ namespace CSharpAdvanceDesignTests
             }; ;
 
             expected.ToExpectedObject().ShouldMatch(actual);
-        }
-
-        private IEnumerable<TSource> JoeyDistinct<TSource>(IEnumerable<TSource> numbers)
-        {
-            var hashSet = new HashSet<TSource>();
-            var enumerator = numbers.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (hashSet.Add(current))
-                {
-                    yield return current;
-                }
-            }
-        }
-
-        private IEnumerable<TSource> JoeyDistinct<TSource>(IEnumerable<TSource> numbers, IEqualityComparer<TSource> comparer)
-        {
-            var hashSet = new HashSet<TSource>(comparer);
-            var enumerator = numbers.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                if (hashSet.Add(current))
-                {
-                    yield return current;
-                }
-            }
         }
     }
 }

@@ -215,5 +215,24 @@ namespace Lab
 
             ;
         }
+
+        public static IEnumerable<TSource> JoeyDistinct<TSource>(this IEnumerable<TSource> numbers)
+        {
+            return numbers.JoeyDistinct(EqualityComparer<TSource>.Default);
+        }
+
+        public static IEnumerable<TSource> JoeyDistinct<TSource>(this IEnumerable<TSource> numbers, IEqualityComparer<TSource> comparer)
+        {
+            var hashSet = new HashSet<TSource>(comparer);
+            var enumerator = numbers.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+                if (hashSet.Add(current))
+                {
+                    yield return current;
+                }
+            }
+        }
     }
 }
