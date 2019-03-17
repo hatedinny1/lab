@@ -73,6 +73,7 @@ namespace Lab
                 {
                     yield break;
                 }
+
                 index++;
             }
         }
@@ -93,7 +94,8 @@ namespace Lab
             }
         }
 
-        public static IEnumerable<int> JoeyGroupSum<TSource>(this IEnumerable<TSource> products, Func<TSource, int> selector)
+        public static IEnumerable<int> JoeyGroupSum<TSource>(this IEnumerable<TSource> products,
+            Func<TSource, int> selector)
         {
             var pageIndex = 0;
             var pageSize = 3;
@@ -131,6 +133,7 @@ namespace Lab
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -145,6 +148,7 @@ namespace Lab
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -163,6 +167,7 @@ namespace Lab
                 var enumeratorCurrent = enumerator.Current;
                 last = enumeratorCurrent;
             }
+
             return last;
         }
 
@@ -171,7 +176,8 @@ namespace Lab
             return new Stack<TSource>(sources);
         }
 
-        public static IEnumerable<TResult> JoeyZip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> selector)
+        public static IEnumerable<TResult> JoeyZip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first,
+            IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> selector)
         {
             var firstEnumerator = first.GetEnumerator();
             var secondEnumerator = second.GetEnumerator();
@@ -187,7 +193,8 @@ namespace Lab
             return first.JoeySequenceEqual(second, EqualityComparer<TSource>.Default);
         }
 
-        public static bool JoeySequenceEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> equalityComparer)
+        public static bool JoeySequenceEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second,
+            IEqualityComparer<TSource> equalityComparer)
         {
             var secondEnumerator = second.GetEnumerator();
             var firstEnumerator = first.GetEnumerator();
@@ -212,8 +219,6 @@ namespace Lab
                     return false;
                 }
             }
-
-            ;
         }
 
         public static IEnumerable<TSource> JoeyDistinct<TSource>(this IEnumerable<TSource> numbers)
@@ -221,7 +226,8 @@ namespace Lab
             return numbers.JoeyDistinct(EqualityComparer<TSource>.Default);
         }
 
-        public static IEnumerable<TSource> JoeyDistinct<TSource>(this IEnumerable<TSource> numbers, IEqualityComparer<TSource> comparer)
+        public static IEnumerable<TSource> JoeyDistinct<TSource>(this IEnumerable<TSource> numbers,
+            IEqualityComparer<TSource> comparer)
         {
             var hashSet = new HashSet<TSource>(comparer);
             var enumerator = numbers.GetEnumerator();
